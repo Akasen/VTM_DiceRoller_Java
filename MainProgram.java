@@ -11,20 +11,23 @@ import java.util.Random;
 public class MainProgram{
     public static void main(String[] args)
     {
-        Scanner scan = new Scanner (System.in);
-        
-        int dice, difficulty;
-        int[] results;
-        
-        System.out.println("Please enter your amount: ");
-        dice = getInput(scan);
-        
-        System.out.println("Enter the difficulty: ");
-        difficulty = getInput(scan);
-        
-        results = displayResults(dice);
-        
+        while(true)
+        {
+            Scanner scan = new Scanner (System.in);
+
+            int dice, difficulty;
+            int[] results;
+
+            System.out.println("Please enter your amount: ");
+            dice = getInput(scan);
+
+            System.out.println("Enter the difficulty: ");
+            difficulty = getInput(scan);
+
+            results = displayResults(dice);
+
         calculateAll(results, dice, difficulty);
+        }
         
     }
    
@@ -39,11 +42,24 @@ public class MainProgram{
    
     public static int getInput(Scanner scan)
     {
-        int input;
-       
-        input = scan.nextInt();
+        String a;
+        int input, properInput = 0;
+        do{
+            if(!scan.hasNextInt())
+            {
+                    
+                System.out.println("I'm sorry, you did not enter a number."
+                        + "Please try again.");
+                System.out.println("Enter Value: ");
+                scan.nextLine();
+                
+            }
+            else
+                properInput = 1;
+        }while(!scan.hasNextInt());
         
-        return input;
+        
+        return scan.nextInt();
     }
     
     public static int[] getPlayerRolls(int amount)
@@ -92,6 +108,8 @@ public class MainProgram{
                 successCount++;
             }
         }
+        
+        System.out.println("\nAmount of Successes: " + successCount);
         return successCount;
     }
     
@@ -106,6 +124,7 @@ public class MainProgram{
                 oneCount++;
             }
         }
+        System.out.println("Amount of 1's: "+ oneCount);
         return oneCount;
     }
     
@@ -116,7 +135,7 @@ public class MainProgram{
         successes = calculateSuccess(results, amount, difficulty);
         ones = calculateOne(results, amount);
         
-        System.out.println("Total amount of successes: " + (successes - ones));
+        System.out.println("\nTotal amount of successes: " + (successes - ones));
         botchDetection(successes, ones, (successes - ones));
         
     }
@@ -124,11 +143,11 @@ public class MainProgram{
     public static void botchDetection(int successes, int ones, int totalSuccesses)
     {
         if(ones > successes)
-            System.out.println("BOTCH");
+            System.out.println("\nBOTCH!");
         else if (successes == 0 && ones == 0)
-            System.out.println("FAILURE");
+            System.out.println("\nFAILURE!");
         else if(totalSuccesses > 0)
-            System.out.println("SUCCESS!");
+            System.out.println("\nSUCCESS!");
     }
     
 }
